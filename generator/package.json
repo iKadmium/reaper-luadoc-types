@@ -1,0 +1,21 @@
+{
+  "name": "generator",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start": "bun run index.ts"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "@types/bun": "latest",
+    "@types/jsdom": "^21.1.7",
+    "@types/node": "^22.15.30"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "jsdom": "^26.1.0"
+  }
+}
