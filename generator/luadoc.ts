@@ -66,6 +66,8 @@ export function generateLuaDoc(functions: FunctionDescriptor[], version?: string
     let luadoc = '';
 
     // Add header comment with generation info
+    luadoc += '---@diagnostic disable\n';
+    luadoc += '\n';
     luadoc += '-- REAPER API LuaDoc Type Definitions\n';
     luadoc += '-- Auto-generated from REAPER API documentation\n';
     if (version) {
