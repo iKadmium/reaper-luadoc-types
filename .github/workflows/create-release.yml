@@ -1,0 +1,84 @@
+name: Create Release
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'luadoc/reaper-api.lua'
+  workflow_dispatch: # Allow manual triggering for testing
+
+permissions:
+  contents: write
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Extract REAPER version from lua file
+        id: extract_version
+        run: |
+          # Extract version from the lua file header
+          VERSION=$(grep "Generated from REAPER v" luadoc/reaper-api.lua | sed 's/.*Generated from REAPER v\([0-9.]*\).*/\1/')
+          if [ -z "$VERSION" ]; then
+            echo "Error: Could not extract REAPER version from lua file"
+            exit 1
+          fi
+          echo "version=v$VERSION" >> $GITHUB_OUTPUT
+          echo "version_number=$VERSION" >> $GITHUB_OUTPUT
+          echo "Extracted version: v$VERSION"
+          
+      - name: Check if release already exists
+        id: check_release
+        run: |
+          # Check if a release with this tag already exists
+          if gh release view ${{ steps.extract_version.outputs.version }} >/dev/null 2>&1; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+            echo "Release ${{ steps.extract_version.outputs.version }} already exists"
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+            echo "Release ${{ steps.extract_version.outputs.version }} does not exist"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Create release
+        if: steps.check_release.outputs.exists == 'false'
+        run: |
+          # Create the release with the lua file as an asset
+          gh release create ${{ steps.extract_version.outputs.version }} \
+            luadoc/reaper-api.lua \
+            --title "REAPER API v${{ steps.extract_version.outputs.version_number }}" \
+            --notes "REAPER API LuaDoc type definitions for version ${{ steps.extract_version.outputs.version_number }}
+
+          ## What's included
+          - \`reaper-api.lua\` - Complete REAPER API type definitions for VS Code autocompletion
+          
+          ## Usage
+          Download \`reaper-api.lua\` and place it in your project directory or VS Code workspace. The Lua language server will automatically provide autocompletion for REAPER API functions.
+          
+          ## Installation
+          1. Download the \`reaper-api.lua\` file from this release
+          2. Place it in your REAPER script project directory
+          3. Ensure you have the Lua extension installed in VS Code
+          4. Start coding with full REAPER API autocompletion!
+          
+          ---
+          *Auto-generated from REAPER v${{ steps.extract_version.outputs.version_number }} API documentation*"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Update existing release
+        if: steps.check_release.outputs.exists == 'true'
+        run: |
+          # Update the existing release with the new lua file
+          gh release upload ${{ steps.extract_version.outputs.version }} \
+            luadoc/reaper-api.lua \
+            --clobber
+          echo "Updated existing release ${{ steps.extract_version.outputs.version }} with new lua file"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

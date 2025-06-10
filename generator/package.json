@@ -4,7 +4,7 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "start": "bun run index.ts"
+    "generate": "bun run index.ts"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",

@@ -2,6 +2,7 @@
 node_modules
 
 api.html
+reaper-api.lua
 
 # output
 out
