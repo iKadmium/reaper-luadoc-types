@@ -2,7 +2,7 @@
 
 -- REAPER API LuaDoc Type Definitions
 -- Auto-generated from REAPER API documentation
--- Generated from REAPER v7.75
+-- Generated from REAPER v7.77
 -- 
 -- This file provides type definitions for VS Code autocompletion
 -- when working with REAPER Lua scripts.
@@ -124,7 +124,7 @@ function reaper.AddProjectMarker2(proj, isrgn, pos, rgnend, name, wantidx, color
 ---@param wantidx integer
 ---@param color integer
 ---@return ProjectMarker
---- Returns the index of the created marker/region, or -1 on failure. Supply wantidx>=0 if you want a particular index number, but you'll get a different index number if wantidx is already in use. color should be 0 (default color), or ColorToNative(r,g,b)|0x1000000
+--- Supply wantidx>=0 if you want a particular index number, but you'll get a different index number if wantidx is already in use. color should be 0 (default color), or ColorToNative(r,g,b)|0x1000000
 function reaper.AddRegionOrMarker(proj, isrgn, pos, rgnend, name, wantidx, color) end
 
 ---@param add boolean
@@ -1537,7 +1537,7 @@ function reaper.GetSet_LoopTimeRange2(proj, isSet, isLoop, start, end_, allowaut
 ---@param value number
 ---@param is_set boolean
 ---@return number
---- Get or set automation item information. autoitem_idx=0 for the first automation item on an envelope, 1 for the second item, etc. desc can be any of the following: D_POOL_ID : double * : automation item pool ID (as an integer); edits are propagated to all other automation items that share a pool ID D_POSITION : double * : automation item timeline position in seconds D_LENGTH : double * : automation item length in seconds D_STARTOFFS : double * : automation item start offset in seconds D_PLAYRATE : double * : automation item playback rate D_BASELINE : double * : automation item baseline value in the range [0,1] D_AMPLITUDE : double * : automation item amplitude in the range [-1,1] D_LOOPSRC : double * : nonzero if the automation item contents are looped D_UISEL : double * : nonzero if the automation item is selected in the arrange view D_POOL_QNLEN : double * : automation item pooled source length in quarter notes (setting will affect all pooled instances)
+--- Get or set automation item information. autoitem_idx=0 for the first automation item on an envelope, 1 for the second item, etc. desc can be any of the following: D_POOL_ID : double * : automation item pool ID (as an integer); edits are propagated to all other automation items that share a pool ID D_POSITION : double * : automation item timeline position in seconds D_LENGTH : double * : automation item length in seconds D_STARTOFFS : double * : automation item start offset in seconds D_PLAYRATE : double * : automation item playback rate D_BASELINE : double * : automation item baseline value in the range [0,1] D_AMPLITUDE : double * : automation item amplitude in the range [-1,1] D_LOOPSRC : double * : nonzero if the automation item contents are looped D_UISEL : double * : nonzero if the automation item is selected in the arrange view D_MUTE : double * : nonzero if the automation item is muted D_POOL_QNLEN : double * : automation item pooled source length in quarter notes (setting will affect all pooled instances)
 function reaper.GetSetAutomationItemInfo(env, autoitem_idx, desc, value, is_set) end
 
 ---@param env TrackEnvelope
@@ -1938,25 +1938,25 @@ function reaper.GetTrackReceiveUIVolPan(track, recv_index) end
 ---@param sendidx integer
 ---@param parmname string
 ---@return number
---- Get send/receive/hardware output numerical-value attributes. category is 0 for hardware outputs Add 0x10000000 to the send index in order to access the ordering of the sends/hardware outputs in the mixer, which may be sparsely populated. parameter names: B_MUTE : bool * B_PHASE : bool * : true to flip phase B_MONO : bool * D_VOL : double * : 1.0 = +0dB etc D_PAN : double * : -1..+1 D_PANLAW : double * : 1.0=+0.0db, 0.5=-6dB, -1.0 = projdef etc I_SENDMODE : int * : 0=post-fader, 1=pre-fx, 2=post-fx (deprecated), 3=post-fx I_AUTOMODE : int * : automation mode (-1=use track automode, 0=trim/off, 1=read, 2=touch, 3=write, 4=latch) I_SRCCHAN : int * : -1 for no audio send. Low 10 bits specify channel offset, and higher bits specify channel count. (srcchan>>10) == 0 for stereo, 1 for mono, 2 for 4 channel, 3 for 6 channel, etc. I_DSTCHAN : int * : low 10 bits are destination index, &1024 set to mix to mono. I_SLOT_HINT : int * : hint for slot index in UI, or -1 for unhinted. I_MIDIFLAGS : int * : low 5 bits=source channel 0=all, 1-16, 31=MIDI send disabled, next 5 bits=dest channel, 0=orig, 1-16=chan. &1024 for faders-send MIDI vol/pan. (>>14)&255 = src bus (0 for all, 1 for normal, 2+). (>>22)&255=destination bus (0 for all, 1 for normal, 2+) P_DESTTRACK : MediaTrack * : destination track, only applies for sends/recvs (read-only) P_SRCTRACK : MediaTrack * : source track, only applies for sends/recvs (read-only) P_ENV:<envchunkname : TrackEnvelope * : call with :<VOLENV, :<PANENV, etc appended (read-only) See CreateTrackSend , RemoveTrackSend , GetTrackNumSends.
+--- Get send/receive/hardware output numerical-value attributes. category is 0 for hardware outputs parameter names: B_MUTE : bool * B_PHASE : bool * : true to flip phase B_MONO : bool * D_VOL : double * : 1.0 = +0dB etc D_PAN : double * : -1..+1 D_PANLAW : double * : 1.0=+0.0db, 0.5=-6dB, -1.0 = projdef etc I_SENDMODE : int * : 0=post-fader, 1=pre-fx, 2=post-fx (deprecated), 3=post-fx I_AUTOMODE : int * : automation mode (-1=use track automode, 0=trim/off, 1=read, 2=touch, 3=write, 4=latch) I_SRCCHAN : int * : -1 for no audio send. Low 10 bits specify channel offset, and higher bits specify channel count. (srcchan>>10) == 0 for stereo, 1 for mono, 2 for 4 channel, 3 for 6 channel, etc. I_DSTCHAN : int * : low 10 bits are destination index, &1024 set to mix to mono. I_SLOT_HINT : int * : hint for slot index in UI, or -1 for unhinted. I_MIDIFLAGS : int * : low 5 bits=source channel 0=all, 1-16, 31=MIDI send disabled, next 5 bits=dest channel, 0=orig, 1-16=chan. &1024 for faders-send MIDI vol/pan. (>>14)&255 = src bus (0 for all, 1 for normal, 2+). (>>22)&255=destination bus (0 for all, 1 for normal, 2+) P_DESTTRACK : MediaTrack * : destination track, only applies for sends/recvs (read-only) P_SRCTRACK : MediaTrack * : source track, only applies for sends/recvs (read-only) P_ENV:<envchunkname : TrackEnvelope * : call with :<VOLENV, :<PANENV, etc appended (read-only) See CreateTrackSend , RemoveTrackSend , GetTrackNumSends.
 function reaper.GetTrackSendInfo_Value(tr, category, sendidx, parmname) end
 
 ---@param track MediaTrack
 ---@param send_index integer
 ---@return boolean retval, string buf
---- send_idx>=0 for hw ouputs, >=nb_of_hw_ouputs for sends. Add 0x10000000 to the send index in order to access the ordering of the sends/hardware outputs in the mixer, which may be sparsely populated. See GetTrackReceiveName.
+--- send_idx>=0 for hw ouputs, >=nb_of_hw_outputs for sends. Add 0x10000000 to the send index in order to access the ordering of the sends/hardware outputs in the mixer, which may be sparsely populated. See GetTrackReceiveName.
 function reaper.GetTrackSendName(track, send_index) end
 
 ---@param track MediaTrack
 ---@param send_index integer
 ---@return boolean retval, boolean mute
---- send_idx>=0 for hw ouputs, >=nb_of_hw_ouputs for sends. Add 0x10000000 to the send index in order to access the ordering of the sends/hardware outputs in the mixer, which may be sparsely populated. See GetTrackReceiveUIMute.
+--- send_idx>=0 for hw ouputs, >=nb_of_hw_outputs for sends. Add 0x10000000 to the send index in order to access the ordering of the sends/hardware outputs in the mixer, which may be sparsely populated. See GetTrackReceiveUIMute.
 function reaper.GetTrackSendUIMute(track, send_index) end
 
 ---@param track MediaTrack
 ---@param send_index integer
 ---@return boolean retval, number volume, number pan
---- send_idx>=0 for hw ouputs, >=nb_of_hw_ouputs for sends. Add 0x10000000 to the send index in order to access the ordering of the sends/hardware outputs in the mixer, which may be sparsely populated. See GetTrackReceiveUIVolPan.
+--- send_idx>=0 for hw ouputs, >=nb_of_hw_outputs for sends. Add 0x10000000 to the send index in order to access the ordering of the sends/hardware outputs in the mixer, which may be sparsely populated. See GetTrackReceiveUIVolPan.
 function reaper.GetTrackSendUIVolPan(track, send_index) end
 
 ---@param track MediaTrack
@@ -2863,7 +2863,7 @@ function reaper.relative_fn(in_, out) end
 ---@param category integer
 ---@param sendidx integer
 ---@return boolean
---- Remove a send/receive/hardware output, return true on success. category is 0 for hardware outputs. Add 0x10000000 to the send index in order to access the ordering of the sends/hardware outputs in the mixer, which may be sparsely populated. See CreateTrackSend , GetSetTrackSendInfo , GetTrackSendInfo_Value , SetTrackSendInfo_Value , GetTrackNumSends.
+--- Remove a send/receive/hardware output, return true on success. category is 0 for hardware outputs. See CreateTrackSend , GetSetTrackSendInfo , GetTrackSendInfo_Value , SetTrackSendInfo_Value , GetTrackNumSends.
 function reaper.RemoveTrackSend(tr, category, sendidx) end
 
 ---@param source_filename string
@@ -3286,7 +3286,7 @@ function reaper.SetTrackSelected(track, selected) end
 ---@param parmname string
 ---@param newvalue number
 ---@return boolean
---- Set send/receive/hardware output numerical-value attributes, return true on success. category is 0 for hardware outputs Add 0x10000000 to the send index in order to access the ordering of the sends/hardware outputs in the mixer, which may be sparsely populated. parameter names: B_MUTE : bool * B_PHASE : bool * : true to flip phase B_MONO : bool * D_VOL : double * : 1.0 = +0dB etc D_PAN : double * : -1..+1 D_PANLAW : double * : 1.0=+0.0db, 0.5=-6dB, -1.0 = projdef etc I_SENDMODE : int * : 0=post-fader, 1=pre-fx, 2=post-fx (deprecated), 3=post-fx I_AUTOMODE : int * : automation mode (-1=use track automode, 0=trim/off, 1=read, 2=touch, 3=write, 4=latch) I_SRCCHAN : int * : -1 for no audio send. Low 10 bits specify channel offset, and higher bits specify channel count. (srcchan>>10) == 0 for stereo, 1 for mono, 2 for 4 channel, 3 for 6 channel, etc. I_DSTCHAN : int * : low 10 bits are destination index, &1024 set to mix to mono. I_SLOT_HINT : int * : hint for slot index in UI, or -1 for unhinted. I_MIDIFLAGS : int * : low 5 bits=source channel 0=all, 1-16, 31=MIDI send disabled, next 5 bits=dest channel, 0=orig, 1-16=chan. &1024 for faders-send MIDI vol/pan. (>>14)&255 = src bus (0 for all, 1 for normal, 2+). (>>22)&255=destination bus (0 for all, 1 for normal, 2+) See CreateTrackSend , RemoveTrackSend , GetTrackNumSends.
+--- Set send/receive/hardware output numerical-value attributes, return true on success. category is 0 for hardware outputs parameter names: B_MUTE : bool * B_PHASE : bool * : true to flip phase B_MONO : bool * D_VOL : double * : 1.0 = +0dB etc D_PAN : double * : -1..+1 D_PANLAW : double * : 1.0=+0.0db, 0.5=-6dB, -1.0 = projdef etc I_SENDMODE : int * : 0=post-fader, 1=pre-fx, 2=post-fx (deprecated), 3=post-fx I_AUTOMODE : int * : automation mode (-1=use track automode, 0=trim/off, 1=read, 2=touch, 3=write, 4=latch) I_SRCCHAN : int * : -1 for no audio send. Low 10 bits specify channel offset, and higher bits specify channel count. (srcchan>>10) == 0 for stereo, 1 for mono, 2 for 4 channel, 3 for 6 channel, etc. I_DSTCHAN : int * : low 10 bits are destination index, &1024 set to mix to mono. I_SLOT_HINT : int * : hint for slot index in UI, or -1 for unhinted. I_MIDIFLAGS : int * : low 5 bits=source channel 0=all, 1-16, 31=MIDI send disabled, next 5 bits=dest channel, 0=orig, 1-16=chan. &1024 for faders-send MIDI vol/pan. (>>14)&255 = src bus (0 for all, 1 for normal, 2+). (>>22)&255=destination bus (0 for all, 1 for normal, 2+) See CreateTrackSend , RemoveTrackSend , GetTrackNumSends.
 function reaper.SetTrackSendInfo_Value(tr, category, sendidx, parmname, newvalue) end
 
 ---@param track MediaTrack
@@ -3294,7 +3294,7 @@ function reaper.SetTrackSendInfo_Value(tr, category, sendidx, parmname, newvalue
 ---@param pan number
 ---@param isend integer
 ---@return boolean
---- send_idx=0 for hw ouputs, >=nb_of_hw_ouputs for sends. Add 0x10000000 to the send index in order to access the ordering of the sends/hardware outputs in the mixer, which may be sparsely populated. isend=1 for end of edit, -1 for an instant edit (such as reset), 0 for normal tweak.
+--- send_idx=0 for hw ouputs, >=nb_of_hw_outputs for sends. Add 0x10000000 to the send index in order to access the ordering of the sends/hardware outputs in the mixer, which may be sparsely populated. isend=1 for end of edit, -1 for an instant edit (such as reset), 0 for normal tweak.
 function reaper.SetTrackSendUIPan(track, send_idx, pan, isend) end
 
 ---@param track MediaTrack
@@ -3302,7 +3302,7 @@ function reaper.SetTrackSendUIPan(track, send_idx, pan, isend) end
 ---@param vol number
 ---@param isend integer
 ---@return boolean
---- send_idx=0 for hw ouputs, >=nb_of_hw_ouputs for sends. Add 0x10000000 to the send index in order to access the ordering of the sends/hardware outputs in the mixer, which may be sparsely populated. isend=1 for end of edit, -1 for an instant edit (such as reset), 0 for normal tweak.
+--- send_idx=0 for hw ouputs, >=nb_of_hw_outputs for sends. Add 0x10000000 to the send index in order to access the ordering of the sends/hardware outputs in the mixer, which may be sparsely populated. isend=1 for end of edit, -1 for an instant edit (such as reset), 0 for normal tweak.
 function reaper.SetTrackSendUIVol(track, send_idx, vol, isend) end
 
 ---@param track MediaTrack
@@ -3859,7 +3859,7 @@ function reaper.TimeMap_timeToQN_abs(proj, tpos) end
 ---@param track MediaTrack
 ---@param send_idx integer
 ---@return boolean
---- send_idx=0 for hw ouputs, >=nb_of_hw_ouputs for sends. Add 0x10000000 to the send index in order to access the ordering of the sends/hardware outputs in the mixer, which may be sparsely populated.
+--- send_idx=0 for hw ouputs, >=nb_of_hw_outputs for sends. Add 0x10000000 to the send index in order to access the ordering of the sends/hardware outputs in the mixer, which may be sparsely populated.
 function reaper.ToggleTrackSendUIMute(track, send_idx) end
 
 ---@param track MediaTrack
