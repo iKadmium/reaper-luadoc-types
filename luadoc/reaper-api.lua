@@ -2,7 +2,7 @@
 
 -- REAPER API LuaDoc Type Definitions
 -- Auto-generated from REAPER API documentation
--- Generated from REAPER v7.85
+-- Generated from REAPER v7.86
 -- 
 -- This file provides type definitions for VS Code autocompletion
 -- when working with REAPER Lua scripts.
@@ -662,7 +662,7 @@ function reaper.DeleteProjectMarkerByIndex(proj, markrgnidx) end
 ---@param take MediaItem_Take
 ---@param idx integer
 ---@return boolean
---- Delete a take marker. Note that idx will change for all following take markers. See GetNumTakeMarkers , GetTakeMarker , SetTakeMarker
+--- Delete a take marker. Note that idx will change for all following take markers. See GetNumTakeMarkers , GetTakeMarker , SetTakeMarker , GetTakeMarkerInfo , SetTakeMarkerInfo
 function reaper.DeleteTakeMarker(take, idx) end
 
 ---@param take MediaItem_Take
@@ -1347,7 +1347,7 @@ function reaper.GetNumRegionsOrMarkers(proj) end
 
 ---@param take MediaItem_Take
 ---@return integer
---- Returns number of take markers. See GetTakeMarker , SetTakeMarker , DeleteTakeMarker
+--- Returns number of take markers. See GetTakeMarker , SetTakeMarker , DeleteTakeMarker , GetTakeMarkerInfo , SetTakeMarkerInfo
 function reaper.GetNumTakeMarkers(take) end
 
 ---@return integer
@@ -1758,8 +1758,15 @@ function reaper.GetTakeEnvelopeByName(take, envname) end
 ---@param take MediaItem_Take
 ---@param idx integer
 ---@return number retval, string name, integer color
---- Get information about a take marker. Returns the position in media item source time, or -1 if the take marker does not exist. See GetNumTakeMarkers , SetTakeMarker , DeleteTakeMarker
+--- Get information about a take marker. Returns the position in media item source time, or -1 if the take marker does not exist. See GetNumTakeMarkers , SetTakeMarker , DeleteTakeMarker , GetTakeMarkerInfo , SetTakeMarkerInfo
 function reaper.GetTakeMarker(take, idx) end
+
+---@param take MediaItem_Take
+---@param idx integer
+---@param attribute string
+---@return number
+--- Gets a named attribute from take marker. See GetNumTakeMarkers , GetTakeMarker , SetTakeMarker , DeleteTakeMarker , SetTakeMarkerInfo . Available attributes: LENGTH.
+function reaper.GetTakeMarkerInfo(take, idx, attribute) end
 
 ---@param take MediaItem_Take
 ---@return string
@@ -3215,8 +3222,16 @@ function reaper.SetRegionRenderMatrix(proj, regionindex, track, flag) end
 ---@param srcposIn optional number
 ---@param colorIn optional integer
 ---@return integer
---- Inserts or updates a take marker. If idx<0, a take marker will be added, otherwise an existing take marker will be updated. Returns the index of the new or updated take marker (which may change if srcPos is updated). See GetNumTakeMarkers , GetTakeMarker , DeleteTakeMarker
+--- Inserts or updates a take marker. If idx<0, a take marker will be added, otherwise an existing take marker will be updated. Returns the index of the new or updated take marker (which may change if srcPos is updated). See GetNumTakeMarkers , GetTakeMarker , DeleteTakeMarker , GetTakeMarkerInfo , SetTakeMarkerInfo
 function reaper.SetTakeMarker(take, idx, nameIn, srcposIn, colorIn) end
+
+---@param take MediaItem_Take
+---@param idx integer
+---@param attribute string
+---@param value number
+---@return boolean
+--- Sets a named attribute from take marker. See GetNumTakeMarkers , GetTakeMarker , SetTakeMarker , DeleteTakeMarker , GetTakeMarkerInfo . Available attributes: LENGTH.
+function reaper.SetTakeMarkerInfo(take, idx, attribute, value) end
 
 ---@param take MediaItem_Take
 ---@param idx integer
